@@ -1,0 +1,46 @@
+{
+  "resources": {
+    "apiservice": {
+      "type": "project.v0",
+      "path": "../WeatherCopilot.ApiService/WeatherCopilot.ApiService.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "react": {
+      "type": "dockerfile.v0",
+      "path": "../WeatherCopilot.React/Dockerfile",
+      "context": "../WeatherCopilot.React",
+      "env": {
+        "NODE_ENV": "production",
+        "REACT_APP_WEATHER_API_HTTP": "{apiservice.bindings.http.url}",
+        "REACT_APP_WEATHER_API_HTTPS": "{apiservice.bindings.https.url}",
+        "PORT": "{react.bindings.http.targetPort}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 8001,
+          "external": true
+        }
+      }
+    }
+  }
+}
