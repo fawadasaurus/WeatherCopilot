@@ -58,7 +58,7 @@ app.MapGet("/weatherforecast", ([FromServices] WebForecast forecastService, stri
     .WithName("GetWeatherForecast")
     .WithOpenApi();
 
-app.MapPost("/weatherforecastchat", ([FromServices] WebForecast forecastService, [FromBody] string prompt) => forecastService.GetChatResponseAsync(prompt))
+app.MapPost("/weatherforecastchat", ([FromServices] WebForecast forecastService, [FromBody] WebForecast.ChatMessage message) => forecastService.GetChatResponseAsync(message))
     .WithName("Chat")
     .WithOpenApi();
 

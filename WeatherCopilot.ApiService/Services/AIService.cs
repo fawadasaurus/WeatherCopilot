@@ -3,6 +3,7 @@
 using System.Text;
 using System.Text.Json;
 using OpenAI.Chat;
+using WeatherCopilot.Controllers;
 public class AIService
 {
     private readonly ChatClient _chatClient;
@@ -14,11 +15,11 @@ public class AIService
         _forecastService = forecastService;
     }
 
-    public async Task<string> CompleteChatAsync(string prompt)
+    public async Task<WebForecast.ChatMessage> CompleteChatAsync(string prompt)
     {
         List<ChatMessage> conversationMessages = new List<ChatMessage> {  
             // System messages represent instructions or other guidance about how the assistant should behave  
-            new SystemChatMessage("You are an assistant that helps people answer questions using details of the weather in their location. (City and State). You are limited to American cities only."),  
+            new SystemChatMessage("You are an assistant that helps people answer questions using details of the weather in their location. (City and State). You are limited to American cities only. Keep your responses clear and concise."),  
             // User messages represent user input, whether historical or the most recent input  
             new UserChatMessage(prompt)
         };
@@ -63,7 +64,7 @@ public class AIService
                     using JsonDocument argumentsDocument = JsonDocument.Parse(toolCall.FunctionArguments);
                     if (!argumentsDocument.RootElement.TryGetProperty("city", out JsonElement cityElement) || !argumentsDocument.RootElement.TryGetProperty("state", out JsonElement stateElement))
                     {
-                        return "Please provide a city and state to get the weather forecast.";
+                        return new WebForecast.ChatMessage("Please provide a city and state to get the weather forecast.");
                     }
 
                     var city = cityElement.GetString() ?? "New York";
@@ -84,11 +85,13 @@ public class AIService
         }
         else
         {
-            return "Please provide a city and state to get the weather forecast.";
+            return new WebForecast.ChatMessage("Please provide a city and state to get the weather forecast.");
         }
         ChatCompletion finalCompletion = _chatClient.CompleteChat(conversationMessages, options);
 
-        return finalCompletion.Content.FirstOrDefault()?.Text ?? "I'm sorry, I don't have that information.";
+        var response = new WebForecast.ChatMessage(finalCompletion.Content.FirstOrDefault()?.Text ?? "I'm sorry, I don't have that information.");
+
+        return response;
     }
 }
 

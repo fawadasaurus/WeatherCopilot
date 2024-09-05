@@ -18,9 +18,11 @@ namespace WeatherCopilot.Controllers
             return await _forecastService.GetForecastsAsync(city, state);
         }
 
-        public async Task<string> GetChatResponseAsync(string prompt)
+        public async Task<ChatMessage> GetChatResponseAsync(ChatMessage chatPrompt)
         {
-            return await _aiService.CompleteChatAsync(prompt);
+            return await _aiService.CompleteChatAsync(chatPrompt.Message);
         }
+
+        public record ChatMessage(string Message);
     }
 }
