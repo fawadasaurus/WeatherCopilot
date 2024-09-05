@@ -3,20 +3,29 @@ using Azure.AI.OpenAI;
 using Microsoft.AspNetCore.Mvc;
 using WeatherCopilot.Controllers;
 
-var azureAIUrl = builder.Configuration["AzureAIUrl"];
-var deploymentName = builder.Configuration["AzureAIDeploymentName"];
-
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 
 builder.AddServiceDefaults();
+
+//Register Azure AI Chat Client
+var azureAIUrl = builder.Configuration["AzureAIUrl"] ?? "Not Found";
+var deploymentName = builder.Configuration["AzureAIDeploymentName"] ?? "Not Found";
+var credential = new DefaultAzureCredential();
+var azureClient = new AzureOpenAIClient(new Uri(azureAIUrl), credential);
+var chatClient = azureClient.GetChatClient(deploymentName);
+
+builder.Services.AddSingleton(chatClient);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
+
 builder.Services.AddScoped<WebForecast>();
+builder.Services.AddScoped<ForecastService>();
+builder.Services.AddScoped<AIService>();
 builder.Services.AddHttpClient<LocationService>(client =>
 {
     client.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -47,6 +56,10 @@ app.UseCors(static builder =>
 
 app.MapGet("/weatherforecast", ([FromServices] WebForecast forecastService, string city, string state) => forecastService.GetForecastsAsync(city, state))
     .WithName("GetWeatherForecast")
+    .WithOpenApi();
+
+app.MapPost("/weatherforecastchat", ([FromServices] WebForecast forecastService, [FromBody] string prompt) => forecastService.GetChatResponseAsync(prompt))
+    .WithName("Chat")
     .WithOpenApi();
 
 app.Run();

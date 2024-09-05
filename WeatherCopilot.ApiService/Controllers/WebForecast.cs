@@ -1,30 +1,26 @@
+// Controllers/WebForecast.cs
+
 namespace WeatherCopilot.Controllers
 {
     public class WebForecast
     {
-        private readonly LocationService _locationService;
-        private readonly WeatherService _weatherService;
+        private readonly ForecastService _forecastService;
+        private readonly AIService _aiService;
 
-        public WebForecast(LocationService locationService, WeatherService weatherService, AIService aiService)
+        public WebForecast(ForecastService forecastService, AIService aiService)
         {
-            _locationService = locationService;
-            _weatherService = weatherService;
+            _forecastService = forecastService;
             _aiService = aiService;
         }
 
         public async Task<IEnumerable<WeatherService.ForecastResponse>> GetForecastsAsync(string city, string state)
         {
-            var geoLocation = await _locationService.GetGeoLocationAsync(city, state);
+            return await _forecastService.GetForecastsAsync(city, state);
+        }
 
-            if (geoLocation == null)
-            {
-                return Enumerable.Empty<WeatherService.ForecastResponse>();
-            }
-
-            var latitude = double.Parse(geoLocation?.Latitude ?? "0.0");
-            var longitude = double.Parse(geoLocation?.Longitude ?? "0.0");
-
-            return await _weatherService.CallWeatherServiceAsync(latitude, longitude);
+        public async Task<string> GetChatResponseAsync(string prompt)
+        {
+            return await _aiService.CompleteChatAsync(prompt);
         }
     }
 }
