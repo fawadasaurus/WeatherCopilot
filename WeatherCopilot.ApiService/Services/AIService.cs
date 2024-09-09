@@ -15,7 +15,7 @@ public class AIService
         _forecastService = forecastService;
     }
 
-    public async Task<WebForecast.ChatMessage> CompleteChatAsync(string prompt)
+    public async Task<WebForecast.ChatMessage> CompleteChatAsync(string prompt, bool useTool = false)
     {
         List<ChatMessage> conversationMessages = new List<ChatMessage> {  
             // System messages represent instructions or other guidance about how the assistant should behave  
@@ -47,8 +47,13 @@ public class AIService
 
         ChatCompletionOptions options = new()
         {
-            Tools = { getWeatherForecastTool },
+            Tools = { },
         };
+
+        if (useTool)
+        {
+            options.Tools.Add(getWeatherForecastTool);
+        }
 
         ChatCompletion completion = _chatClient.CompleteChat(conversationMessages, options);
 
@@ -82,16 +87,15 @@ public class AIService
                     conversationMessages.Add(new ToolChatMessage(toolCall.Id, forecastString.ToString()));
                 }
             }
+
+            ChatCompletion finalCompletion = _chatClient.CompleteChat(conversationMessages, options);
+
+            return new WebForecast.ChatMessage(finalCompletion.Content.FirstOrDefault()?.Text ?? "I'm sorry, I don't have that information.");
         }
         else
         {
-            return new WebForecast.ChatMessage("Please provide a city and state to get the weather forecast.");
+            return new WebForecast.ChatMessage(completion.Content.FirstOrDefault()?.Text ?? "I'm sorry, I don't have that information.");
         }
-        ChatCompletion finalCompletion = _chatClient.CompleteChat(conversationMessages, options);
-
-        var response = new WebForecast.ChatMessage(finalCompletion.Content.FirstOrDefault()?.Text ?? "I'm sorry, I don't have that information.");
-
-        return response;
     }
 }
 
