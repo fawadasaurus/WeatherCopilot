@@ -12,7 +12,9 @@
     "start:default": "webpack-dev-server --mode development --hot --env PORT=$PORT"
   },
   "dependencies": {
+    "@fluentui/react": "^8.120.9",
     "react": "^18.3.1",
+    "react-chatbotify": "^2.0.0-beta.10",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {

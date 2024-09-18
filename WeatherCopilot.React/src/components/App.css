@@ -1,123 +1,6 @@
-:root {  
-  --react-blue: #61dafb;  
-}  
-  
-.App {  
-  text-align: center;  
-}  
-  
-.App-header {  
-  background-color: #282c34;  
-  min-height: 100vh;  
-  display: flex;  
-  flex-direction: column;  
-  align-items: center;  
-  justify-content: center;  
-  font-size: calc(10px + 2vmin);  
-  color: white;  
-}  
-  
-.App-header h1 {  
-  color: var(--react-blue);  
-}  
-  
-table {  
-  width: 100%; /* Ensure table takes full width of container */  
-  border: none;  
-  border-collapse: collapse;  
-  font-size: 0.9rem; /* Adjust font size for the table */  
-}  
-  
-tr:nth-child(even) {  
-  background-color: #22252c;  
-}  
-  
-th {  
-  border-bottom: solid 0.2rem var(--react-blue);  
-  font-size: 0.9rem; /* Adjust font size for table headers */  
-}  
-  
-th, td {  
-  padding: 1rem;  
-  word-wrap: break-word; /* Prevent long words from expanding the table */  
-  font-size: 0.9rem; /* Adjust font size for table cells */  
-}  
-  
-/* New Styles for Chat Section */  
-.section-container {  
-  width: 80%; /* Consistent width for both sections */  
-  max-width: 1000px;  
-  margin-bottom: 2rem;  
-  padding: 1rem;  
-  border: 1px solid var(--react-blue);  
-  border-radius: 5px;  
-  box-sizing: border-box; /* Include padding and border in element's width */  
-}  
-  
-.chat-section h2, .weather-section h2 {  
-  color: var(--react-blue);  
-}  
-  
-.chat-section textarea, .weather-section input {  
-  width: calc(100% - 2rem); /* Full width minus padding */  
-  margin: 0.5rem;  
-  padding: 0.5rem 1rem;  
-  border: 1px solid #ccc;  
-  border-radius: 5px;  
-  font-size: 1rem;  
-  transition: border-color 0.3s ease;  
-  box-sizing: border-box; /* Include padding and border in element's width */  
-}  
-  
-.chat-section textarea:focus, .weather-section input:focus {  
-  border-color: var(--react-blue);  
-  outline: none;  
-}  
-  
-.chat-section button, .weather-section button {  
-  padding: 0.5rem 1.5rem;  
-  margin: 0.5rem;  
-  background-color: var(--react-blue);  
-  border: none;  
-  border-radius: 5px;  
-  color: white;  
-  font-size: 1rem;  
-  cursor: pointer;  
-  transition: background-color 0.3s ease, transform 0.3s ease;  
-}  
-  
-.chat-section button:hover, .weather-section button:hover {  
-  background-color: #21a1f1;  
-  transform: scale(1.05);  
-}  
-  
-.chat-section button:active, .weather-section button:active {  
-  background-color: #1e90ff;  
-  transform: scale(1);  
-}  
-  
-.chat-section p {  
-  margin-top: 1rem;  
-  padding: 0.5rem 1rem;  
-  background-color: #22252c;  
-  border-radius: 5px;  
-  font-size: 1rem;  
-  word-wrap: break-word; /* Prevent long words from expanding the container */  
-}  
-  
-/* Divider Styles */  
-.divider {  
-  width: 80%;  
-  max-width: 1000px;  
-  border: none;  
-  border-top: 1px solid var(--react-blue);  
-  margin: 2rem 0;  
-}  
-  
-/* Spinner Styles */  
 .spinner {  
   border: 4px solid rgba(0, 0, 0, 0.1);  
-  border-left-color: var(--react-blue);  
+  border-left-color: #61dafb;  
   border-radius: 50%;  
   width: 40px;  
   height: 40px;  
@@ -129,4 +12,11 @@ th, td {
   to {  
     transform: rotate(360deg);  
   }  
+}  
+  
+.chatbot-container {  
+  position: fixed;  
+  bottom: 20px;  
+  right: 20px;  
+  z-index: 1000;  
 }  
