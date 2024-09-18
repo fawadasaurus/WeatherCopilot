@@ -1,3 +1,5 @@
+// Models/GeoLocation.cs
+
 using System.Text.Json.Serialization;
 
 public struct GeoLocation

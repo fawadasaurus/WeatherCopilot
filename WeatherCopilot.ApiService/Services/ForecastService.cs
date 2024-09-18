@@ -1,4 +1,5 @@
-// services/ForecastService.cs  
+// services/ForecastService.cs
+
 public class ForecastService
 {
     private readonly LocationService _locationService;

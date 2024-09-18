@@ -1,3 +1,5 @@
+// Models/WeatherPoint.cs
+
 using System.Text.Json.Serialization;
 
 public struct WeatherPoint

@@ -1,5 +1,5 @@
-using System;
-using System.Collections.Generic;
+// Models/Forecast.cs
+
 using System.Text.Json.Serialization;
 
 public struct WeatherForecast
