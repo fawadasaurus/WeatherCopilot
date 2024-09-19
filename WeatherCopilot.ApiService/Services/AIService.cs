@@ -19,7 +19,8 @@ public class AIService
     {
         List<ChatMessage> conversationMessages = new List<ChatMessage> {  
             // System messages represent instructions or other guidance about how the assistant should behave  
-            new SystemChatMessage("You are an assistant that helps people answer questions using details of the weather in their location. (City and State). You are limited to American cities only. Keep your responses clear and concise."),  
+            new SystemChatMessage(@"You are an assistant that helps people answer questions using details of the weather in their location. (City and State). 
+                You are limited to American cities only. Keep your responses clear and concise."),  
             // User messages represent user input, whether historical or the most recent input  
             new UserChatMessage(prompt)
         };
@@ -67,7 +68,8 @@ public class AIService
                 if (toolCall.FunctionName == nameof(_forecastService.GetForecastsAsync))
                 {
                     using JsonDocument argumentsDocument = JsonDocument.Parse(toolCall.FunctionArguments);
-                    if (!argumentsDocument.RootElement.TryGetProperty("city", out JsonElement cityElement) || !argumentsDocument.RootElement.TryGetProperty("state", out JsonElement stateElement))
+                    if (!argumentsDocument.RootElement.TryGetProperty("city", out JsonElement cityElement)
+                        || !argumentsDocument.RootElement.TryGetProperty("state", out JsonElement stateElement))
                     {
                         return new WebForecast.ChatMessage("Please provide a city and state to get the weather forecast.");
                     }

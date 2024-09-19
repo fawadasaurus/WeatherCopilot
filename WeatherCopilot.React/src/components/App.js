@@ -106,7 +106,7 @@ const App = () => {
   };  
   
   const columns = [  
-    { key: "column1", name: "Name", fieldName: "name", minWidth: 100, isResizable: true, styles: { cell: { fontSize: '18px' } } },  
+    { key: "column1", name: "Timeframe", fieldName: "name", minWidth: 100, isResizable: true, styles: { cell: { fontSize: '18px' } } },  
     { key: "column2", name: "Temp. (C)", fieldName: "temperatureC", minWidth: 70, isResizable: true, styles: { cell: { fontSize: '18px' } } },  
     { key: "column3", name: "Temp. (F)", fieldName: "temperatureF", minWidth: 70, isResizable: true, styles: { cell: { fontSize: '18px' } } },  
     { key: "column4", name: "Summary", fieldName: "summary", minWidth: 200, isResizable: true, styles: { cell: { fontSize: '18px' } } },  
